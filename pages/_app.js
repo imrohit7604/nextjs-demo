@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-sync-scripts */
 import "../styles/globals.css";
 import Head from "next/head";
+import Layout from "../components/Layout";
 function MyApp({ Component, pageProps }) {
   return (
     <>
@@ -20,7 +21,9 @@ function MyApp({ Component, pageProps }) {
           crossOrigin="anonymous"
         ></script>
       </Head>
-      <Component {...pageProps} />
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
     </>
   );
 }

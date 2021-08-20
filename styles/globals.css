@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap");
 html,
 body {
   padding: 0;
@@ -14,3 +15,105 @@ a {
 * {
   box-sizing: border-box;
 }
+
+ul li {
+  margin: 0;
+}
+nav {
+  padding: 0.5rem 8rem 0.5rem 8rem;
+  -webkit-box-shadow: 0 5px 6px -6px grey;
+  -moz-box-shadow: 0 5px 6px -6px grey;
+  box-shadow: 0 5px 6px -6px grey;
+  color: grey;
+}
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+  font-size: 1.5rem;
+  font-weight: bolder;
+}
+.navbar-container ul {
+  list-style: none;
+}
+.navbar-container li {
+  margin-left: 1rem;
+}
+
+.nav-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+main {
+  padding: 3rem 2rem 0 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: centerF;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 13rem;
+  margin: 0.5rem;
+}
+.user-form {
+  width: 50%;
+}
+
+/*  Conatct Csss  */
+.container {
+  border: 1px solid;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+.contact-card {
+  width: 400px;
+  border: none;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.stats {
+  background: #f2f5f8 !important;
+  color: #000 !important;
+}
+
+.articles {
+  font-size: 10px;
+  color: #a1aab9;
+}
+
+.number1 {
+  font-weight: 500;
+}
+
+.followers {
+  font-size: 10px;
+  color: #a1aab9;
+}
+
+.number2 {
+  font-weight: 500;
+}
+
+.rating {
+  font-size: 10px;
+  color: #a1aab9;
+}
+
+.number3 {
+  font-weight: 500;
+}
+/* ** */
