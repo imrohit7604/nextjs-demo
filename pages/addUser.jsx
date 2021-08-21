@@ -1,10 +1,11 @@
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import React, { useContext, useEffect, useState } from "react";
+import { Context as UserInfoContext } from "../context/UserInfoContext";
 
 const FormError = ({ errorMessage }) => {
   return <p style={{ color: "red" }}>{errorMessage}</p>;
 };
 function AddUser() {
+  const [error, setError] = useState(false);
   const [localState, setLocaltate] = useState({
     name: "",
     nameError: false,
@@ -13,16 +14,30 @@ function AddUser() {
     gitHubUserName: "",
     gitHubUserNameError: false,
   });
+  const {
+    state: contextState,
+    saveUser,
+    getAllUser,
+  } = useContext(UserInfoContext);
+
   const handelChange = (e) => {
     setLocaltate((prevState) => {
       return { ...prevState, [e.target.id]: e.target.value };
     });
   };
-  const handelSubmit = (e) => {
+  const handelSubmit = async (e) => {
     e.preventDefault();
 
-    if (vaildate()) console.log(localState);
+    if (vaildate()) {
+      const res = await saveUser(localState);
+      if (res.data) {
+        setError(false);
+      } else {
+        setError(true);
+      }
+    }
   };
+
   const vaildate = () => {
     let isValid = true;
     if (localState.name != null && localState.name != "")
@@ -59,6 +74,14 @@ function AddUser() {
     }
     return isValid;
   };
+
+  useEffect(() => {
+    console.log("component ", contextState);
+  }, [contextState]);
+
+  useEffect(() => {
+    getAllUser();
+  }, []);
   return (
     <form className="user-form">
       <div className="mb-3">
@@ -105,6 +128,7 @@ function AddUser() {
           <FormError errorMessage="GitHub User Name is Required" />
         )}
       </div>
+      {error && <FormError errorMessage="GitHub User Not Found !!" />}
       <button type="submit" className="btn btn-primary" onClick={handelSubmit}>
         Submit
       </button>

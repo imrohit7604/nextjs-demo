@@ -1,18 +1,21 @@
-import Head from "next/head";
-import Image from "next/image";
 import ContactCard from "../components/ContactCard";
-import styles from "../styles/Home.module.css";
+import { Context as UserInfoContext } from "../context/UserInfoContext";
+import { useContext, useEffect } from "react";
 
 export default function Home() {
+  const { state: contextState, getAllUser } = useContext(UserInfoContext);
+
+  useEffect(() => {
+    getAllUser();
+  }, []);
   return (
     <>
-    <div className="card-container" >
-    <ContactCard/>
-      <ContactCard/>
-      <ContactCard/>
-      <ContactCard/>
-    </div>
-     
+      <div className="card-container">
+        {contextState.users.map((user) => (
+          <ContactCard key={user.id} userInfo={user} />
+        ))}
+      
+      </div>
     </>
   );
 }

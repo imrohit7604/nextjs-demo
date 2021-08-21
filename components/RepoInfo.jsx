@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Context as UserInfoContext } from "../context/UserInfoContext";
 const Info = ({ type, value }) => {
   return (
     <>
@@ -19,6 +19,7 @@ const Info = ({ type, value }) => {
   );
 };
 function RepoInfo({ name = "Demo", privates = false }) {
+  const { state: contextState } = useContext(UserInfoContext);
   return (
     <div className="card" style={{ width: "35%" }}>
       <h5 className="card-header">{name}</h5>

@@ -2,6 +2,7 @@
 import "../styles/globals.css";
 import Head from "next/head";
 import Layout from "../components/Layout";
+import { Provider as UserInfoContext } from "../context/UserInfoContext";
 function MyApp({ Component, pageProps }) {
   return (
     <>
@@ -21,9 +22,11 @@ function MyApp({ Component, pageProps }) {
           crossOrigin="anonymous"
         ></script>
       </Head>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <UserInfoContext>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </UserInfoContext>
     </>
   );
 }
