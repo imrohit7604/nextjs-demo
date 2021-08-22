@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { Context as UserInfoContext } from "../context/UserInfoContext";
 
 const FormError = ({ errorMessage }) => {
@@ -6,6 +7,7 @@ const FormError = ({ errorMessage }) => {
 };
 function AddUser() {
   const [error, setError] = useState(false);
+  const router = useRouter();
   const [localState, setLocaltate] = useState({
     name: "",
     nameError: false,
@@ -32,6 +34,7 @@ function AddUser() {
       const res = await saveUser(localState);
       if (res.data) {
         setError(false);
+        router.push("/");
       } else {
         setError(true);
       }
@@ -74,10 +77,6 @@ function AddUser() {
     }
     return isValid;
   };
-
-  useEffect(() => {
-    console.log("component ", contextState);
-  }, [contextState]);
 
   useEffect(() => {
     getAllUser();

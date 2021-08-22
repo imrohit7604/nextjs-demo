@@ -4,14 +4,14 @@ import { useContext, useEffect } from "react";
 
 export default function Home() {
   const { state: contextState, getAllUser } = useContext(UserInfoContext);
-
+  console.log(contextState.users)
   useEffect(() => {
     getAllUser();
   }, []);
   return (
     <>
       <div className="card-container">
-        {contextState.users.map((user) => (
+        {contextState&&contextState.users.map((user) => (
           <ContactCard key={user.id} userInfo={user} />
         ))}
       
