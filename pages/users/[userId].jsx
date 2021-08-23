@@ -50,6 +50,9 @@ function UserDetails({ repoLists }) {
     setRepoList(list.data);
   }, [userInfo]);
 
+    if(router.isFallback)
+      return <h1>Lodaing...</h1>
+    
   return (
     <>
       <div className="card" style={{ width: "25%" }}>
@@ -123,13 +126,12 @@ export async function getStaticPaths() {
   });
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 }
 
 export async function getStaticProps(context) {
   const { params } = context;
-  console.log(params);
   const response = await fetch(
     `https://api.github.com/users/${params.userId}/repos`
   );
