@@ -22,33 +22,33 @@ const Info = ({ type, value }) => {
   );
 };
 
-function UserDetails() {
+function UserDetails({ repoLists }) {
+  console.log("repolosts", repoLists);
   const { state: contextState, getAllUser } = useContext(UserInfoContext);
   const [userInfo, setUserInfo] = useState(null);
   const [repoList, setRepoList] = useState([]);
   const router = useRouter();
   const { userId } = router.query;
 
-  const handleClick=()=>{
-    window.open(userInfo.html_url, "_blank")
-  }
+  const handleClick = () => {
+    window.open(userInfo.html_url, "_blank");
+  };
   useEffect(() => {
     const user = contextState.users.find((user) => user.login === userId);
     setUserInfo(user);
   }, [contextState]);
 
-  useEffect( () => {
+  useEffect(() => {
     getAllUser();
   }, []);
 
-    useEffect(async()=>{
-      if(userInfo==null)
-      return
-      const list = await axios.get(
-        `https://api.github.com/users/${userInfo.login}/repos`
-      );
-      setRepoList(list.data);
-    },[userInfo])
+  useEffect(async () => {
+    if (userInfo == null) return;
+    const list = await axios.get(
+      `https://api.github.com/users/${userInfo.login}/repos`
+    );
+    setRepoList(list.data);
+  }, [userInfo]);
 
   return (
     <>
@@ -82,13 +82,15 @@ function UserDetails() {
             type="Last Updated On"
             value={userInfo && new Date(userInfo.updated_at).toDateString()}
           />
-          <button className="btn btn-primary" onClick={handleClick}>Profile Link</button>
+          <button className="btn btn-primary" onClick={handleClick}>
+            Profile Link
+          </button>
         </div>
       </div>
       <div style={{ width: "70%" }}>
         <h3>
           Repositories
-          <span className="badge bg-secondary" style={{marginLeft:"10px"}}>
+          <span className="badge bg-secondary" style={{ marginLeft: "10px" }}>
             {userInfo && userInfo.public_repos}
           </span>
         </h3>
@@ -98,7 +100,7 @@ function UserDetails() {
         >
           {repoList.map((list) => (
             <RepoInfo key={list.id} repoInfo={list} />
-          ))}         
+          ))}
         </div>
       </div>
     </>
@@ -106,3 +108,35 @@ function UserDetails() {
 }
 
 export default UserDetails;
+
+export async function getStaticPaths() {
+  const response = await fetch("http://localhost:3000/api/users", {
+    method: "GET",
+  });
+  const users = await response.json();
+  const paths = users.data.map((user) => {
+    return {
+      params: {
+        userId: `${user.login}`,
+      },
+    };
+  });
+  return {
+    paths,
+    fallback: false,
+  };
+}
+
+export async function getStaticProps(context) {
+  const { params } = context;
+  console.log(params);
+  const response = await fetch(
+    `https://api.github.com/users/${params.userId}/repos`
+  );
+  const data = await response.json();
+  return {
+    props: {
+      repoLists: data,
+    },
+  };
+}
