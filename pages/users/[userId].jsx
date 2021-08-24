@@ -22,11 +22,9 @@ const Info = ({ type, value }) => {
   );
 };
 
-function UserDetails({ repoLists }) {
-  console.log("repolosts", repoLists);
+function UserDetails({ repoList }) {
   const { state: contextState, getAllUser } = useContext(UserInfoContext);
   const [userInfo, setUserInfo] = useState(null);
-  const [repoList, setRepoList] = useState([]);
   const router = useRouter();
   const { userId } = router.query;
 
@@ -42,17 +40,8 @@ function UserDetails({ repoLists }) {
     getAllUser();
   }, []);
 
-  useEffect(async () => {
-    if (userInfo == null) return;
-    const list = await axios.get(
-      `https://api.github.com/users/${userInfo.login}/repos`
-    );
-    setRepoList(list.data);
-  }, [userInfo]);
+  if (router.isFallback) return <h1>Lodaing...</h1>;
 
-    if(router.isFallback)
-      return <h1>Lodaing...</h1>
-    
   return (
     <>
       <div className="card" style={{ width: "25%" }}>
@@ -124,6 +113,7 @@ export async function getStaticPaths() {
       },
     };
   });
+
   return {
     paths,
     fallback: true,
@@ -136,9 +126,13 @@ export async function getStaticProps(context) {
     `https://api.github.com/users/${params.userId}/repos`
   );
   const data = await response.json();
+  // if (data.message === "Not Found")
+  //   return {
+  //     notFound: true,
+  //   };
   return {
     props: {
-      repoLists: data,
+      repoList: data,
     },
   };
 }
